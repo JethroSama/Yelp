@@ -1,10 +1,14 @@
 <%- include("partials/top") %>
+<div class="container">
+  <h1 class="newH1">Add a new campsite</h1>
+  <div class="formcont">
+    <form action="/campsites" method="post" class="form-group">
+    <input type="text" name="name" placeholder="Campsite name" class="form-control">
+    <input type="text" name="image" placeholder="image url" class="form-control">
+    <button class="btn btn-primary btn-block">Submit</button>
+    </form>
+    <a href="/campsites">Go back</a>
+  </div>
+</div>
 
-<h1>Add a new campsite</h1>
-<form action="/campsites" method="post">
-  <input type="text" name="name" placeholder="Campsite name">
-  <input type="text" name="image" placeholder="image url">
-  <button>Submit</button>
-</form>
-<a href="/campsites">Go back</a>
 <%- include("partials/bot") %>

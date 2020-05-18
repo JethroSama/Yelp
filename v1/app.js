@@ -3,13 +3,26 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(express.static("public"));
 
 app.set("view engine", "ejs");
 //campsites Array
   const campsites = [
-      {name:"Skysite", image:"https://photosforclass.com/download/pixabay-2581242?webUrl=https%3A%2F%2Fpixabay.com%2Fget%2F54e5dd424856ae14f6da8c7dda793f7f1636dfe2564c704c7d267ddc9f4ecc5b_1280.jpg&user=6091236"},
-      {name:"Water7 site", image:"https://photosforclass.com/download/pixabay-1031360?webUrl=https%3A%2F%2Fpixabay.com%2Fget%2F57e0d6424954ac14f6da8c7dda793f7f1636dfe2564c704c7d267ddc9f4ecc5b_1280.jpg&user=Free-Photos"},
-      {name:"Little Garden", image:"https://photosforclass.com/download/pixabay-1289930?webUrl=https%3A%2F%2Fpixabay.com%2Fget%2F57e2dd4a4351ac14f6da8c7dda793f7f1636dfe2564c704c7d267ddc9f4ecc5b_1280.jpg&user=pooch_eire"}
+      {name:"Skysite", image:"https://images.pexels.com/photos/2603681/pexels-photo-2603681.jpeg?cs=srgb&dl=tent-near-tree-2603681.jpg&fm=jpg"},
+      {name:"Water7 site", image:"https://images.pexels.com/photos/1309584/pexels-photo-1309584.jpeg?cs=srgb&dl=tents-surrounded-by-trees-1309584.jpg&fm=jpg"},
+      {name:"Little Garden", image:"https://images.pexels.com/photos/699558/pexels-photo-699558.jpeg?cs=srgb&dl=six-camping-tents-in-forest-699558.jpg&fm=jpg"},
+      {name:"Skysite", image:"https://images.pexels.com/photos/2603681/pexels-photo-2603681.jpeg?cs=srgb&dl=tent-near-tree-2603681.jpg&fm=jpg"},
+      {name:"Water7 site", image:"https://images.pexels.com/photos/1309584/pexels-photo-1309584.jpeg?cs=srgb&dl=tents-surrounded-by-trees-1309584.jpg&fm=jpg"},
+      {name:"Little Garden", image:"https://images.pexels.com/photos/699558/pexels-photo-699558.jpeg?cs=srgb&dl=six-camping-tents-in-forest-699558.jpg&fm=jpg"},
+      {name:"Skysite", image:"https://images.pexels.com/photos/2603681/pexels-photo-2603681.jpeg?cs=srgb&dl=tent-near-tree-2603681.jpg&fm=jpg"},
+      {name:"Water7 site", image:"https://images.pexels.com/photos/1309584/pexels-photo-1309584.jpeg?cs=srgb&dl=tents-surrounded-by-trees-1309584.jpg&fm=jpg"},
+      {name:"Little Garden", image:"https://images.pexels.com/photos/699558/pexels-photo-699558.jpeg?cs=srgb&dl=six-camping-tents-in-forest-699558.jpg&fm=jpg"},
+      {name:"Skysite", image:"https://images.pexels.com/photos/2603681/pexels-photo-2603681.jpeg?cs=srgb&dl=tent-near-tree-2603681.jpg&fm=jpg"},
+      {name:"Water7 site", image:"https://images.pexels.com/photos/1309584/pexels-photo-1309584.jpeg?cs=srgb&dl=tents-surrounded-by-trees-1309584.jpg&fm=jpg"},
+      {name:"Little Garden", image:"https://images.pexels.com/photos/699558/pexels-photo-699558.jpeg?cs=srgb&dl=six-camping-tents-in-forest-699558.jpg&fm=jpg"},
+      {name:"Skysite", image:"https://images.pexels.com/photos/2603681/pexels-photo-2603681.jpeg?cs=srgb&dl=tent-near-tree-2603681.jpg&fm=jpg"},
+      {name:"Water7 site", image:"https://images.pexels.com/photos/1309584/pexels-photo-1309584.jpeg?cs=srgb&dl=tents-surrounded-by-trees-1309584.jpg&fm=jpg"},
+      {name:"Little Garden", image:"https://images.pexels.com/photos/699558/pexels-photo-699558.jpeg?cs=srgb&dl=six-camping-tents-in-forest-699558.jpg&fm=jpg"}
       ]
 //--routes--
   //homepage

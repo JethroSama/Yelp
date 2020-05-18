@@ -1,12 +1,32 @@
 <%- include("partials/top") %>
+<div class="container">
+  <div class="jumbotron">
+    <div class="container">
+      <h1>Welcome to YelpCamp</h1>
+      <p>These are the campsites, senpai</p>
+      <a href="/campsites/new" class="btn btn-primary">New Campsite</a>
+    </div>
+  </div>
+</div>
 
-<h1>These are the campsites, senpai</h1>
-<a href="/campsites/new">New Campsite</a>
-<% campsites.forEach((campsite)=>{%>
-  <li>
-  <%= campsite.name %>
-  <img src="<%= campsite.image %>">
-  </li>
-<% }) %>
+<div class="container" >
+  <div class="row text-center" style="display: flex; flex-wrap:wrap;">
+
+  <% campsites.forEach((campsite)=>{%>
+    <div class="col-lg-3 col-md-6">
+      <div class="thumbnail">
+        <img src="<%= campsite.image %>">
+        <div class="caption">
+        <%= campsite.name %>
+        </div>
+      </div>
+    </div>
+    <% }) %>
+  </div>
+  
+  
+
+</div>
+
 
 <%- include("partials/bot") %>
