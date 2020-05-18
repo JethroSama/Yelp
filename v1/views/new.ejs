@@ -1,0 +1,10 @@
+<%- include("partials/top") %>
+
+<h1>Add a new campsite</h1>
+<form action="/campsites" method="post">
+  <input type="text" name="name" placeholder="Campsite name">
+  <input type="text" name="image" placeholder="image url">
+  <button>Submit</button>
+</form>
+<a href="/campsites">Go back</a>
+<%- include("partials/bot") %>

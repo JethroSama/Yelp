@@ -1,0 +1,12 @@
+<%- include("partials/top") %>
+
+<h1>These are the campsites, senpai</h1>
+<a href="/campsites/new">New Campsite</a>
+<% campsites.forEach((campsite)=>{%>
+  <li>
+  <%= campsite.name %>
+  <img src="<%= campsite.image %>">
+  </li>
+<% }) %>
+
+<%- include("partials/bot") %>
