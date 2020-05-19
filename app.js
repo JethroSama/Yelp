@@ -1,29 +1,30 @@
 //--setup--
-const express = require("express");
-const app = express();
-const bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded({extended:true}));
-app.use(express.static("public"));
+const express = require("express"),
+      app = express(),
+      bodyParser = require("body-parser"),
+      mongoose = require("mongoose");
 
+//mongoose setup
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useUnifiedTopology', true);
+mongoose.connect("mongodb+srv://jethrosama:undeadban07@master-2viyl.mongodb.net/YelpCamp?retryWrites=true&w=majority");
+//bodyparser
+app.use(bodyParser.urlencoded({extended:true}));
+//express
+app.use(express.static("public"));
 app.set("view engine", "ejs");
-//campsites Array
-  const campsites = [
-      {name:"Skysite", image:"https://images.pexels.com/photos/2603681/pexels-photo-2603681.jpeg?cs=srgb&dl=tent-near-tree-2603681.jpg&fm=jpg"},
-      {name:"Water7 site", image:"https://images.pexels.com/photos/1309584/pexels-photo-1309584.jpeg?cs=srgb&dl=tents-surrounded-by-trees-1309584.jpg&fm=jpg"},
-      {name:"Little Garden", image:"https://images.pexels.com/photos/699558/pexels-photo-699558.jpeg?cs=srgb&dl=six-camping-tents-in-forest-699558.jpg&fm=jpg"},
-      {name:"Skysite", image:"https://images.pexels.com/photos/2603681/pexels-photo-2603681.jpeg?cs=srgb&dl=tent-near-tree-2603681.jpg&fm=jpg"},
-      {name:"Water7 site", image:"https://images.pexels.com/photos/1309584/pexels-photo-1309584.jpeg?cs=srgb&dl=tents-surrounded-by-trees-1309584.jpg&fm=jpg"},
-      {name:"Little Garden", image:"https://images.pexels.com/photos/699558/pexels-photo-699558.jpeg?cs=srgb&dl=six-camping-tents-in-forest-699558.jpg&fm=jpg"},
-      {name:"Skysite", image:"https://images.pexels.com/photos/2603681/pexels-photo-2603681.jpeg?cs=srgb&dl=tent-near-tree-2603681.jpg&fm=jpg"},
-      {name:"Water7 site", image:"https://images.pexels.com/photos/1309584/pexels-photo-1309584.jpeg?cs=srgb&dl=tents-surrounded-by-trees-1309584.jpg&fm=jpg"},
-      {name:"Little Garden", image:"https://images.pexels.com/photos/699558/pexels-photo-699558.jpeg?cs=srgb&dl=six-camping-tents-in-forest-699558.jpg&fm=jpg"},
-      {name:"Skysite", image:"https://images.pexels.com/photos/2603681/pexels-photo-2603681.jpeg?cs=srgb&dl=tent-near-tree-2603681.jpg&fm=jpg"},
-      {name:"Water7 site", image:"https://images.pexels.com/photos/1309584/pexels-photo-1309584.jpeg?cs=srgb&dl=tents-surrounded-by-trees-1309584.jpg&fm=jpg"},
-      {name:"Little Garden", image:"https://images.pexels.com/photos/699558/pexels-photo-699558.jpeg?cs=srgb&dl=six-camping-tents-in-forest-699558.jpg&fm=jpg"},
-      {name:"Skysite", image:"https://images.pexels.com/photos/2603681/pexels-photo-2603681.jpeg?cs=srgb&dl=tent-near-tree-2603681.jpg&fm=jpg"},
-      {name:"Water7 site", image:"https://images.pexels.com/photos/1309584/pexels-photo-1309584.jpeg?cs=srgb&dl=tents-surrounded-by-trees-1309584.jpg&fm=jpg"},
-      {name:"Little Garden", image:"https://images.pexels.com/photos/699558/pexels-photo-699558.jpeg?cs=srgb&dl=six-camping-tents-in-forest-699558.jpg&fm=jpg"}
-      ]
+
+//campsiteSchema
+var campsiteSchema = new mongoose.Schema({
+  name: String,
+  image: String
+});
+//Campsite db
+var Campsite = mongoose.model("campsite", campsiteSchema);
+
+
 //--routes--
   //homepage
   app.get("/", (req, res)=>{
@@ -31,22 +32,36 @@ app.set("view engine", "ejs");
   })
   //campsites
   app.get("/campsites", (req, res)=>{
-    res.render("campsites", {campsites:campsites});
+    //grab campsites from db
+    Campsite.find({}, function(err, data){
+      if(err){
+        console.log(err)
+      } else{
+        //send the data to campsites.ejs
+        res.render("campsites", {campsites:data});
+      }
+    })
   })
-  
+  //new campsites page
   app.get("/campsites/new", (req, res)=>{
     res.render("new")
   })
-  
+  //post route from new
   app.post("/campsites", (req, res)=>{
       //grab data from form
     const name = req.body.name;
     const image = req.body.image;
     const campsite = {name: name, image: image};
-      //add to array
-    campsites.push(campsite);
-    res.redirect("/campsites")
+      //add to database
+      Campsite.create(campsite, function(err, data){
+    if(err){
+      console.log(err)
+    } else{
+      //redirect to campsites
+      res.redirect("/campsites")
+    }
   })
+})
   
 //--server--
 app.listen(3000, ()=>{
