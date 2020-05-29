@@ -30,7 +30,7 @@ var Campsite = mongoose.model("campsite", campsiteSchema);
 //--routes--
   //homepage
   app.get("/", (req, res)=>{
-    res.render("index")
+    res.redirect("/campsites")
   })
   //campsites index
   app.get("/campsites", (req, res)=>{
@@ -40,7 +40,7 @@ var Campsite = mongoose.model("campsite", campsiteSchema);
         console.log(err)
       } else{
         //send the data to campsites.ejs
-        res.render("campsites", {campsites:data});
+        res.render("index", {campsites:data});
       }
     })
   })
