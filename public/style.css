@@ -7,3 +7,10 @@
     text-align: center;
     margin-bottom: 25px;
 }
+#cimg{
+  width:100%;
+}
+.flexit{
+  display: flex;
+  flex-wrap: wrap;
+}

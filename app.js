@@ -9,6 +9,7 @@ mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
+
 mongoose.connect("mongodb+srv://jethrosama:undeadban07@master-2viyl.mongodb.net/YelpCamp?retryWrites=true&w=majority");
 //bodyparser
 app.use(bodyParser.urlencoded({extended:true}));
@@ -19,7 +20,8 @@ app.set("view engine", "ejs");
 //campsiteSchema
 var campsiteSchema = new mongoose.Schema({
   name: String,
-  image: String
+  image: String,
+  description: String
 });
 //Campsite db
 var Campsite = mongoose.model("campsite", campsiteSchema);
@@ -30,7 +32,7 @@ var Campsite = mongoose.model("campsite", campsiteSchema);
   app.get("/", (req, res)=>{
     res.render("index")
   })
-  //campsites
+  //campsites index
   app.get("/campsites", (req, res)=>{
     //grab campsites from db
     Campsite.find({}, function(err, data){
@@ -42,16 +44,17 @@ var Campsite = mongoose.model("campsite", campsiteSchema);
       }
     })
   })
-  //new campsites page
+  //New 
   app.get("/campsites/new", (req, res)=>{
     res.render("new")
   })
-  //post route from new
+  //Create
   app.post("/campsites", (req, res)=>{
       //grab data from form
-    const name = req.body.name;
-    const image = req.body.image;
-    const campsite = {name: name, image: image};
+    const name = req.body.name,
+          image = req.body.image,
+          desc = req.body.description;
+    const campsite = {name: name, image: image, description: desc};
       //add to database
       Campsite.create(campsite, function(err, data){
     if(err){
@@ -62,6 +65,17 @@ var Campsite = mongoose.model("campsite", campsiteSchema);
     }
   })
 })
+      //SHOW
+      app.get("/campsites/:id", (req, res)=>{
+         const id = req.params.id;
+         Campsite.findById(id, (err, data)=>{
+           if(err){
+             console.log(err);
+           } else{
+             res.render("show", {campsite: data})
+           }
+         })
+      })
   
 //--server--
 app.listen(3000, ()=>{
