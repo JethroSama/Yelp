@@ -1,8 +1,12 @@
 //--setup--
 const express = require("express"),
-      app = express(),
-      bodyParser = require("body-parser"),
-      mongoose = require("mongoose");
+app           = express(),
+bodyParser    = require("body-parser"),
+mongoose      = require("mongoose"),
+Campsite      = require("./models/campsite"),
+Comment       = require("./models/comment"),
+seedDB        = require("./seeds");
+      
 
 //mongoose setup
 mongoose.set('useNewUrlParser', true);
@@ -17,16 +21,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 
-//campsiteSchema
-var campsiteSchema = new mongoose.Schema({
-  name: String,
-  image: String,
-  description: String
-});
-//Campsite db
-var Campsite = mongoose.model("campsite", campsiteSchema);
-
-
+seedDB();
 //--routes--
   //homepage
   app.get("/", (req, res)=>{
@@ -68,7 +63,7 @@ var Campsite = mongoose.model("campsite", campsiteSchema);
       //SHOW
       app.get("/campsites/:id", (req, res)=>{
          const id = req.params.id;
-         Campsite.findById(id, (err, data)=>{
+         Campsite.findById(id).populate("comments").exec((err, data)=>{
            if(err){
              console.log(err);
            } else{

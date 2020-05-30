@@ -4,4 +4,10 @@
 <img src="<%= campsite.image %>" id="cimg">
 <p><%= campsite.description %></p>
 
+
+<%campsite.comments.forEach((comment)=>{%>
+  <p><%=comment.author%>: <%=comment.text%></p>
+<% }) %>
+
+
 <%- include("partials/bot") %>
