@@ -1,0 +1,20 @@
+<%- include("../partials/top") %>
+<div class="container">
+  <h1 class="newH1">Comment <%=campsite.name%></h1>
+  <div class="formcont">
+    <form action="/campsites/<%= campsite._id %>/comments" method="post" class="form-group">
+    <div class="form-group">
+    <input type="text" name="comment[author]" placeholder="Author" class="form-control">
+    </div>
+    
+    <div class="form-group">
+    <input type="text" name="comment[text]" placeholder="Comment" class="form-control">
+    </div>
+    
+    <button class="btn btn-primary btn-block">Submit</button>
+    </form>
+    <a href="/campsites/<%= campsite._id %>">Go back</a>
+  </div>
+</div>
+
+<%- include("../partials/bot") %>

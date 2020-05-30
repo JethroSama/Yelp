@@ -21,28 +21,28 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 
-seedDB();
+//seedDB();
 //--routes--
   //homepage
   app.get("/", (req, res)=>{
-    res.redirect("/campsites")
-  })
+    res.redirect("/campsites");
+  });
   //campsites index
   app.get("/campsites", (req, res)=>{
     //grab campsites from db
     Campsite.find({}, function(err, data){
       if(err){
-        console.log(err)
+        console.log(err);
       } else{
         //send the data to campsites.ejs
-        res.render("index", {campsites:data});
+        res.render("campsites/index", {campsites:data});
       }
-    })
-  })
+    });
+  });
   //New 
   app.get("/campsites/new", (req, res)=>{
-    res.render("new")
-  })
+    res.render("new");
+  });
   //Create
   app.post("/campsites", (req, res)=>{
       //grab data from form
@@ -53,13 +53,13 @@ seedDB();
       //add to database
       Campsite.create(campsite, function(err, data){
     if(err){
-      console.log(err)
+      console.log(err);
     } else{
       //redirect to campsites
-      res.redirect("/campsites")
+      res.redirect("/campsites");
     }
-  })
-})
+  });
+});
       //SHOW
       app.get("/campsites/:id", (req, res)=>{
          const id = req.params.id;
@@ -67,11 +67,48 @@ seedDB();
            if(err){
              console.log(err);
            } else{
-             res.render("show", {campsite: data})
+             res.render("campsites/show", {campsite: data});
            }
-         })
-      })
-  
+         });
+      });
+//--------------
+//comments route
+//--------------
+    //new
+app.get("/campsites/:id/comments/new", (req, res)=>{
+  Campsite.findById(req.params.id, (err, campsite)=>{
+    if (err) {
+      console.log(err);
+    } else{
+      res.render("comments/new", {campsite: campsite});
+    }
+  });
+});
+    //create
+app.post("/campsites/:id/comments",(req, res)=>{
+  Campsite.findById(req.params.id, (err, campsite)=>{
+    if (err) {
+      console.log(err);
+    } else{
+      Comment.create(req.body.comment, (err, comment)=>{
+        if (err) {
+          console.log(err);
+        } else{
+          campsite.comments.push(comment);
+          campsite.save((err)=>{
+            if (err) {
+              console.log(err);
+            } else{
+              res.redirect("/campsites/" + campsite._id);
+            }
+          });
+        }
+      });
+    }
+  });
+});
+
+
 //--server--
 app.listen(3000, ()=>{
   console.log("server started at http://localhost:3000");
