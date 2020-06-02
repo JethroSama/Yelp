@@ -41,7 +41,7 @@ app.set("view engine", "ejs");
   });
   //New 
   app.get("/campsites/new", (req, res)=>{
-    res.render("new");
+    res.render("campsites/new");
   });
   //Create
   app.post("/campsites", (req, res)=>{

@@ -1,13 +1,65 @@
 <%- include("../partials/top") %>
 
-<h1><%= campsite.name %></h1>
-<img src="<%= campsite.image %>" id="cimg">
-<p><%= campsite.description %></p>
-
-<a class="btn btn-success" href="/campsites/<%= campsite._id %>/comments/new">Add a comment</a>
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <p class="lead">YelpCamp</p>
+      <div class="list-group">
+        <div class="list-group-item active">
+          Item 1
+        </div>
+        <div class="list-group-item">
+          Item 2
+        </div>
+        <div class="list-group-item">
+          Item 3
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="thumbnail">
+        <img class="img-responsive"src="<%= campsite.image %>" id="cimg">
+        <div class="caption">
+          <div class="pull-right">5.00$/night</div>
+          <div>
+            <h1><%= campsite.name %></h1>
+            <p><%= campsite.description %></p>
+          </div>
+        </div>
+      </div>
+      <div class="well">
+        <a class="btn btn-success" href="/campsites/<%= campsite._id %>/comments/new">Add a comment</a>
+        <hr>
 <%campsite.comments.forEach((comment)=>{%>
-  <p><%=comment.author%>: <%=comment.text%></p>
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="pull-right">
+              10 days ago
+            </div>
+            <div>
+              <strong>
+                <%=comment.author%>
+              </strong>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p><%=comment.text%></p>
+        </div>
 <% }) %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+  
 
 
 <%- include("../partials/bot") %>
