@@ -5,7 +5,7 @@ bodyParser    = require("body-parser"),
 mongoose      = require("mongoose"),
 Campsite      = require("./models/campsite"),
 Comment       = require("./models/comment"),
-seedDB        = require("./seeds");
+seedDB        = require("./seeds")
       
 
 //mongoose setup
