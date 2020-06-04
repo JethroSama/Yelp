@@ -24,6 +24,9 @@
           <div>
             <h1><%= campsite.name %></h1>
             <p><%= campsite.description %></p>
+            <p>
+              <em>Submitted by <%= campsite.author.username %></em>
+            </p>
           </div>
         </div>
       </div>
@@ -38,7 +41,7 @@
             </div>
             <div>
               <strong>
-                <%=comment.author%>
+                <%=comment.author.username%>
               </strong>
             </div>
           </div>

@@ -19,12 +19,21 @@ router = express.Router();
     res.render("campsites/new");
   });
   //Create
-  router.post("/", (req, res)=>{
+  router.post("/", isLoggedIn, (req, res)=>{
       //grab data from form
     const name = req.body.name,
           image = req.body.image,
-          desc = req.body.description;
-    const campsite = {name: name, image: image, description: desc};
+          desc = req.body.description,
+          author = {
+            id: req.user._id,
+            username: req.user.username
+          };
+    const campsite = {
+      name: name,
+      image: image,
+      description: desc,
+      author: author
+      };
       //add to database
       Campsite.create(campsite, function(err, data){
     if(err){
