@@ -10,11 +10,13 @@ seedDB = require("./seeds"),
 passport = require("passport"),
 localStrategy = require("passport-local"),
 passportLocalMongoose = require("passport-local-mongoose"),
-expressSession = require("express-session");
+expressSession = require("express-session"),
+methodOverride = require("method-override");
+
 //---requiring routes----
 const campsiteRoutes = require("./routes/campsites"),
 commentRoutes = require("./routes/comments"),
-indexRoutes = require("./routes/index")
+indexRoutes = require("./routes/index");
 
 //mongoose setup
 mongoose.set('useNewUrlParser', true);
@@ -27,6 +29,7 @@ mongoose.connect("mongodb+srv://jethrosama:undeadban07@master-2viyl.mongodb.net/
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
+app.use(methodOverride("_method"));
 
 //seedDB();
 

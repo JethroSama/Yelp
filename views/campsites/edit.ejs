@@ -1,0 +1,27 @@
+<%- include("../partials/top") %>
+<div class="container">
+  <h1 class="newH1">Edit <%= campsite.name%></h1>
+  <div class="formcont">
+    <form action="/campsites/<%= campsite._id %>?_method=PUT" method="post" class="form-group">
+    <div class="form-group">
+    <input type="text" name="campsite[name]" placeholder="Campsite name" class="form-control" value="<%= campsite.name %>">
+    </div>
+    
+    <div class="form-group">
+    <input type="text" name="campsite[image]" placeholder="image url" class="form-control" value="<%= campsite.image %>">
+    </div>
+    
+    <div class="form-group">
+    <input type="text" name="campsite[description]" placeholder="description" class="form-control" value="<%= campsite.description %>">
+    </div>
+    
+    <button class="btn btn-primary btn-block">Update</button>
+    </form>
+    <form action="/campsites/<%= campsite._id %>?_method=DELETE" method="post">
+      <button class="btn btn-danger btn-block">Delete Campsite</button>
+    </form>
+    <a href="/campsites">Go back</a>
+  </div>
+</div>
+
+<%- include("../partials/bot") %>

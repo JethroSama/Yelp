@@ -55,6 +55,35 @@ router.get("/:id", (req, res)=>{
       }
     });
 });
+
+//EDIT CAMPSITE ROUTE
+//show edit page
+router.get("/:id/edit", (req, res)=>{
+  Campsite.findById(req.params.id,(err, data)=>{
+    if (err) {
+      return res.redirect("/");
+    }
+    res.render("campsites/edit",{campsite: data} );
+  });
+});
+//Update route
+router.put("/:id", (req,res)=>{
+  Campsite.findByIdAndUpdate(req.params.id,req.body.campsite, (err)=>{
+    if (err) {
+      return res.redirect("/");
+    }
+    res.redirect("/campsites/"+ req.params.id);
+  });
+});
+//Destroy route
+router.delete("/:id", (req, res)=>{
+  Campsite.findByIdAndRemove(req.params.id, (err)=>{
+    if (err) {
+      return res.redirect("/");
+    }
+    res.redirect("/campsites");
+  });
+});
 //-----middleware------
 function isLoggedIn(req, res, next){
   if (req.isAuthenticated()) {
