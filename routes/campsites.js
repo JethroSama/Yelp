@@ -1,5 +1,6 @@
 const express = require("express"),
 Campsite = require("../models/campsite"),
+Comment = require("../models/comment"),
 router = express.Router();
 
   //campsites index
@@ -77,11 +78,18 @@ router.put("/:id", checkOwnership, (req,res)=>{
 });
 //Destroy route
 router.delete("/:id",checkOwnership, (req, res)=>{
-  Campsite.findByIdAndRemove(req.params.id, (err)=>{
+  Campsite.findByIdAndRemove(req.params.id, (err, campsite)=>{
     if (err) {
       return res.redirect("/");
     }
-    res.redirect("/campsites");
+    Comment.deleteMany({_id:{
+      $in: campsite.comments
+    }}, (err, comment)=>{
+      if (err) {
+        return res.redirect("back");
+      }
+      res.redirect("/campsites");
+    });
   });
 });
 //-----middleware------
