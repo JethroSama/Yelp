@@ -27,7 +27,9 @@
             <p>
               <em>Submitted by <%= campsite.author.username %></em>
             </p>
+            <% if(currentUser && campsite.author.id.equals(currentUser.id)){ %>
             <a class="btn btn-warning" href="/campsites/<%= campsite._id %>/edit">Edit</a>
+            <% } %>
           </div>
         </div>
       </div>
@@ -48,7 +50,11 @@
           </div>
         </div>
         <div>
-          <p><%=comment.text%></p>
+          <p><%=comment.text%>
+          <% if(currentUser && comment.author.id.equals(currentUser.id)){ %>
+          <a class="pull-right" href="/campsites/<%= campsite._id %>/comments/<%= comment._id %>/edit">Edit</a>
+          <% } %>
+          </p>
         </div>
 <% }) %>
       </div>

@@ -1,0 +1,18 @@
+<%- include("../partials/top") %>
+<div class="container">
+  <h1 class="newH1">Edit Comment</h1>
+  <div class="formcont">
+    <form action="/campsites/<%= campsiteId %>/comments/<%= comment._id %>?_method=PUT" method="post" class="form-group">
+    <div class="form-group">
+    <textarea name="comment[text]" class="form-control"><%= comment.text %></textarea>
+    </div>
+    
+    <button class="btn btn-primary btn-block">Submit</button>
+    </form>
+    <form action="/campsites/<%= campsiteId%>/comments/<%= comment._id %>?_method=DELETE" method="post">
+      <button class="btn btn-danger btn-block">Delete Comment</button>
+    </form>
+    <a href="/campsites/<%= campsiteId %>">Go back</a>
+  </div>
+</div>
+<%- include("../partials/bot") %>

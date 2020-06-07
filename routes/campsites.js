@@ -58,7 +58,7 @@ router.get("/:id", (req, res)=>{
 
 //EDIT CAMPSITE ROUTE
 //show edit page
-router.get("/:id/edit", (req, res)=>{
+router.get("/:id/edit", checkOwnership,  (req, res)=>{
   Campsite.findById(req.params.id,(err, data)=>{
     if (err) {
       return res.redirect("/");
@@ -67,7 +67,7 @@ router.get("/:id/edit", (req, res)=>{
   });
 });
 //Update route
-router.put("/:id", (req,res)=>{
+router.put("/:id", checkOwnership, (req,res)=>{
   Campsite.findByIdAndUpdate(req.params.id,req.body.campsite, (err)=>{
     if (err) {
       return res.redirect("/");
@@ -76,7 +76,7 @@ router.put("/:id", (req,res)=>{
   });
 });
 //Destroy route
-router.delete("/:id", (req, res)=>{
+router.delete("/:id",checkOwnership, (req, res)=>{
   Campsite.findByIdAndRemove(req.params.id, (err)=>{
     if (err) {
       return res.redirect("/");
@@ -91,4 +91,22 @@ function isLoggedIn(req, res, next){
   }
   res.redirect("/login");
 }
+function checkOwnership(req, res, next){
+  //check if logged in
+  if (req.isAuthenticated()) {
+    Campsite.findById(req.params.id,(err, data)=>{
+    if (err) {
+      return res.redirect("back");
+    }
+    //Check if the author id matches the currend user id
+    if (data.author.id.equals(req.user.id)) {
+      return next();
+    }
+    res.redirect("back");
+  });
+  } else{
+    res.redirect("back");
+  }
+}
+
 module.exports = router;

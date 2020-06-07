@@ -17,3 +17,7 @@
 .thumbnail{
   padding:0;
 }
+
+div{
+  word-wrap: break-word;
+}
