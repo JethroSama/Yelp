@@ -1,7 +1,8 @@
 const express = require("express"),
 Campsite = require("../models/campsite"),
 Comment = require("../models/comment"),
-router = express.Router();
+router = express.Router(),
+middleware = require("../middleware");
 
   //campsites index
   router.get("/", (req, res)=>{
@@ -16,11 +17,11 @@ router = express.Router();
     });
   });
   //New 
-  router.get("/new", isLoggedIn,(req, res)=>{
+  router.get("/new", middleware.isLoggedIn,(req, res)=>{
     res.render("campsites/new");
   });
   //Create
-  router.post("/", isLoggedIn, (req, res)=>{
+  router.post("/", middleware.isLoggedIn, (req, res)=>{
       //grab data from form
     const name = req.body.name,
           image = req.body.image,
@@ -59,7 +60,7 @@ router.get("/:id", (req, res)=>{
 
 //EDIT CAMPSITE ROUTE
 //show edit page
-router.get("/:id/edit", checkOwnership,  (req, res)=>{
+router.get("/:id/edit", middleware.checkCampsiteOwnership,  (req, res)=>{
   Campsite.findById(req.params.id,(err, data)=>{
     if (err) {
       return res.redirect("/");
@@ -68,7 +69,7 @@ router.get("/:id/edit", checkOwnership,  (req, res)=>{
   });
 });
 //Update route
-router.put("/:id", checkOwnership, (req,res)=>{
+router.put("/:id", middleware.checkCampsiteOwnership, (req,res)=>{
   Campsite.findByIdAndUpdate(req.params.id,req.body.campsite, (err)=>{
     if (err) {
       return res.redirect("/");
@@ -77,7 +78,7 @@ router.put("/:id", checkOwnership, (req,res)=>{
   });
 });
 //Destroy route
-router.delete("/:id",checkOwnership, (req, res)=>{
+router.delete("/:id", middleware.checkCampsiteOwnership, (req, res)=>{
   Campsite.findByIdAndRemove(req.params.id, (err, campsite)=>{
     if (err) {
       return res.redirect("/");
@@ -92,29 +93,4 @@ router.delete("/:id",checkOwnership, (req, res)=>{
     });
   });
 });
-//-----middleware------
-function isLoggedIn(req, res, next){
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect("/login");
-}
-function checkOwnership(req, res, next){
-  //check if logged in
-  if (req.isAuthenticated()) {
-    Campsite.findById(req.params.id,(err, data)=>{
-    if (err) {
-      return res.redirect("back");
-    }
-    //Check if the author id matches the currend user id
-    if (data.author.id.equals(req.user.id)) {
-      return next();
-    }
-    res.redirect("back");
-  });
-  } else{
-    res.redirect("back");
-  }
-}
-
 module.exports = router;
