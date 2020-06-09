@@ -41,6 +41,7 @@ middleware = require("../middleware");
     if(err){
       console.log(err);
     } else{
+      req.flash("success", "Campsite Created")
       //redirect to campsites
       res.redirect("/campsites");
     }
@@ -63,7 +64,7 @@ router.get("/:id", (req, res)=>{
 router.get("/:id/edit", middleware.checkCampsiteOwnership,  (req, res)=>{
   Campsite.findById(req.params.id,(err, data)=>{
     if (err) {
-      return res.redirect("/");
+      return res.redirect("back");
     }
     res.render("campsites/edit",{campsite: data} );
   });
@@ -72,8 +73,9 @@ router.get("/:id/edit", middleware.checkCampsiteOwnership,  (req, res)=>{
 router.put("/:id", middleware.checkCampsiteOwnership, (req,res)=>{
   Campsite.findByIdAndUpdate(req.params.id,req.body.campsite, (err)=>{
     if (err) {
-      return res.redirect("/");
+      return res.redirect("back");
     }
+    req.flash("success", "Updated Campsite")
     res.redirect("/campsites/"+ req.params.id);
   });
 });
@@ -89,6 +91,7 @@ router.delete("/:id", middleware.checkCampsiteOwnership, (req, res)=>{
       if (err) {
         return res.redirect("back");
       }
+      req.flash("success", "Campsite Deleted")
       res.redirect("/campsites");
     });
   });

@@ -7,6 +7,7 @@ middleware.isLoggedIn = (req, res, next)=>{
   if (req.isAuthenticated()) {
     return next();
   }
+  req.flash("error", "You must be logged in to do that");
   res.redirect("/login");
 };
 
@@ -20,12 +21,14 @@ middleware.checkCommentOwnership = (req, res, next)=>{
         if (comment.author.id.equals(req.user.id)) {
           next();
         } else{
-          res.redirect("back");
+          req.flash("error", "You don't have permission to do that");
+    res.redirect("/campsites/"+ req.params.id);
         }
       }
     });
   } else{
-    res.redirect("back");
+    req.flash("error", "You must be logged in to do that");
+    res.redirect("/campsites/"+ req.params.id);
   }
 };
 
@@ -40,10 +43,12 @@ middleware.checkCampsiteOwnership = (req, res, next)=>{
     if (data.author.id.equals(req.user.id)) {
       return next();
     }
-    res.redirect("back");
+    req.flash("error", "You don't have permission to do that");
+    res.redirect("/campsites/"+ req.params.id);
   });
   } else{
-    res.redirect("back");
+    req.flash("error", "You must be logged in to do that");
+    res.redirect("/campsites/"+ req.params.id);
   }
 };
 module.exports = middleware;

@@ -7,6 +7,7 @@ Campsite = require("./models/campsite"),
 Comment = require("./models/comment"),
 User = require("./models/user"),
 seedDB = require("./seeds"),
+flash = require("connect-flash"),
 passport = require("passport"),
 localStrategy = require("passport-local"),
 passportLocalMongoose = require("passport-local-mongoose"),
@@ -30,7 +31,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.use(methodOverride("_method"));
-
+app.use(flash());
 //seedDB();
 
 //Passport Auth setup
@@ -50,6 +51,8 @@ passport.deserializeUser(User.deserializeUser());
 //data of current user pass in all routes
 app.use((req, res, next)=>{
   res.locals.currentUser = req.user;
+  res.locals.error = req.flash("error");
+  res.locals.success = req.flash("success");
   next();
 });
 //routes
