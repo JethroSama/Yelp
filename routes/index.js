@@ -6,15 +6,17 @@ router = express.Router();
 //---register---
 //render registration page
 router.get("/register", (req, res)=>{
-  res.render("register");
+  res.render("register", {page: "register"});
 });
 //register user logic
 router.post("/register", (req, res)=>{
   const newUser = new User({username: req.body.username});
+  if(req.body.adminCode === "228922"){
+    newUser.isAdmin = true;
+  }
   User.register(newUser, req.body.password, (err, data)=>{
     if (err) {
-      req.flash("error", err.message);
-      return res.redirect("/register");
+      return res.render("register", {error: err.message});
     }
     passport.authenticate("local")(req, res, ()=>{
       req.flash("success", "Welcome to Yelp Camp, "+ data.username);
@@ -25,7 +27,7 @@ router.post("/register", (req, res)=>{
 //-----login-----
 //render login
 router.get("/login", (req, res)=>{
-  res.render("login");
+  res.render("login", {page: "login"});
 });
 //login logic
 router.post("/login", passport.authenticate("local", {

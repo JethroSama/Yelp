@@ -18,7 +18,7 @@ middleware.checkCommentOwnership = (req, res, next)=>{
         res.redirect("back");
       } else{
         //check if user owns comment
-        if (comment.author.id.equals(req.user.id)) {
+        if (comment.author.id.equals(req.user.id) || req.user && req.user.isAdmin) {
           next();
         } else{
           req.flash("error", "You don't have permission to do that");
@@ -36,11 +36,12 @@ middleware.checkCampsiteOwnership = (req, res, next)=>{
   //check if logged in
   if (req.isAuthenticated()) {
     Campsite.findById(req.params.id,(err, data)=>{
-    if (err) {
-      return res.redirect("back");
+    if (err || !data) {
+      req.flash("error", "Campsite not found");
+      return res.redirect("/campsites");
     }
     //Check if the author id matches the currend user id
-    if (data.author.id.equals(req.user.id)) {
+    if (data.author.id.equals(req.user.id) || req.user && req.user.isAdmin) {
       return next();
     }
     req.flash("error", "You don't have permission to do that");

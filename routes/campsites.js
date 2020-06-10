@@ -12,7 +12,7 @@ middleware = require("../middleware");
         console.log(err);
       } else{
         //send the data to campsites.ejs
-        res.render("campsites/index", {campsites:data});
+        res.render("campsites/index", {campsites:data, page: "campsites"});
       }
     });
   });
@@ -24,6 +24,7 @@ middleware = require("../middleware");
   router.post("/", middleware.isLoggedIn, (req, res)=>{
       //grab data from form
     const name = req.body.name,
+          price = req.body.price,
           image = req.body.image,
           desc = req.body.description,
           author = {
@@ -32,6 +33,7 @@ middleware = require("../middleware");
           };
     const campsite = {
       name: name,
+      price: price,
       image: image,
       description: desc,
       author: author
@@ -51,8 +53,9 @@ middleware = require("../middleware");
 router.get("/:id", (req, res)=>{
     const id = req.params.id;
     Campsite.findById(id).populate("comments").exec((err, data)=>{
-      if(err){
-        console.log(err);
+      if(err || !data){
+        req.flash("error", "Campsite not found");
+        res.redirect("/campsites");
       } else{
         res.render("campsites/show", {campsite: data});
       }

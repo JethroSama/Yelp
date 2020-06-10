@@ -1,6 +1,4 @@
 <%- include("../partials/top") %>
-
-<div class="container">
   <div class="row">
     <div class="col-md-3">
       <p class="lead">YelpCamp</p>
@@ -20,14 +18,14 @@
       <div class="thumbnail">
         <img class="img-responsive"src="<%= campsite.image %>" id="cimg">
         <div class="caption">
-          <div class="pull-right">5.00$/night</div>
+          <div class="pull-right"><%= campsite.price %>$/night</div>
           <div>
             <h1><%= campsite.name %></h1>
             <p><%= campsite.description %></p>
             <p>
-              <em>Submitted by <%= campsite.author.username %></em>
+              <em>Submitted by: <%= campsite.author.username %></em>, <%= moment(campsite.createdAt).fromNow()%>
             </p>
-            <% if(currentUser && campsite.author.id.equals(currentUser.id)){ %>
+            <% if(currentUser && campsite.author.id.equals(currentUser.id) || currentUser && currentUser.isAdmin){ %>
             <a class="btn btn-warning" href="/campsites/<%= campsite._id %>/edit">Edit</a>
             <% } %>
           </div>
@@ -40,7 +38,7 @@
         <div class="row">
           <div class="col-sm-12">
             <div class="pull-right">
-              10 days ago
+              <%= moment(comment.createdAt).fromNow() %>
             </div>
             <div>
               <strong>
@@ -51,7 +49,7 @@
         </div>
         <div>
           <p><%=comment.text%>
-          <% if(currentUser && comment.author.id.equals(currentUser.id)){ %>
+          <% if(currentUser && comment.author.id.equals(currentUser.id) || currentUser && currentUser.isAdmin){ %>
           <a class="pull-right" href="/campsites/<%= campsite._id %>/comments/<%= comment._id %>/edit">Edit</a>
           <% } %>
           </p>
@@ -60,6 +58,4 @@
       </div>
     </div>
   </div>
-</div>
-
 <%- include("../partials/bot") %>
