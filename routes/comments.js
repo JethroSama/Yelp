@@ -26,6 +26,7 @@ router.post("/", middleware.isLoggedIn, (req, res)=>{
         } else{
           comment.author.id = req.user._id;
           comment.author.username = req.user.username;
+          comment.author.avatar = req.user.avatar;
           comment.save();
           campsite.comments.push(comment);
           campsite.save((err)=>{

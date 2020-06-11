@@ -41,6 +41,7 @@
               <%= moment(comment.createdAt).fromNow() %>
             </div>
             <div>
+              <img class="img-thumbnail img-circle avatar" src="<%= comment.author.avatar %>">
               <strong>
                 <%=comment.author.username%>
               </strong>
