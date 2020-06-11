@@ -1,6 +1,7 @@
 const express = require("express"),
 User = require("../models/user"),
 Comment = require("../models/comment"),
+Campsite = require("../models/campsite"),
 passport = require("passport"),
 router = express.Router();
 //---register---
@@ -10,7 +11,10 @@ router.get("/register", (req, res)=>{
 });
 //register user logic
 router.post("/register", (req, res)=>{
-  const newUser = new User({username: req.body.username});
+  const newUser = new User({
+    username: req.body.username,
+    avatar: req.body.avatar
+  });
   if(req.body.adminCode === process.env.ADMIN_CODE){
     newUser.isAdmin = true;
   }
@@ -39,7 +43,7 @@ router.post("/login", passport.authenticate("local", {
 //-----logout-----
 router.get("/logout", (req, res)=>{
   req.logout();
-  req.flash("success", "Succesfully logged out")
+  req.flash("success", "Succesfully logged out");
   res.redirect("/campsites");
 });
  //landing
@@ -53,4 +57,22 @@ function isLoggedIn(req, res, next){
   }
   res.redirect("/login");
 }
+//USER PROFILE
+router.get("/users/:id", function(req, res){
+  User.findById(req.params.id, (err, user)=>{
+    if (err) {
+      console.log(err);
+      req.flash("error", "something went wrong");
+      return res.redirect("/campsites");
+    }
+    Campsite.find().where("author.id").equals(user._id).exec((err, campsites)=>{
+      if (err) {
+      console.log(err);
+      req.flash("error", "something went wrong");
+      return res.redirect("/campsites");
+    }
+      res.render("./user/show", {user: user, campsites: campsites});
+    });
+  });
+});
 module.exports = router;

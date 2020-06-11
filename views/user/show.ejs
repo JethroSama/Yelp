@@ -1,0 +1,33 @@
+<%- include("../partials/top") %>
+<div class="jumbotron">
+  <div class="tac">
+    <img class="img-thumbnail img-circle" src="<%= user.avatar %>">
+    <h4><%= user.username %></h4>
+  </div>
+</div>
+<% if(!campsites.length){ %>
+  <% if(currentUser && user._id.equals(currentUser.id)){ %>
+      <h4>You have not yet submitted any campgrounds</h4>
+      <a href="/campsites/new" class="btn btn-primary">Submit one</a>
+    <% } else{ %>
+  <h4><%= user.username %> has not yet submitted any campgrounds</h4>
+    <% } %>
+<% } else{ %>
+<h4><%= user.username %>'s Campgrounds</h4>
+<% } %>
+<div class="row text-center flexit">
+  <% campsites.forEach((campsite)=>{%>
+    <div class="col-lg-3 col-md-6">
+      <a href="/campsites/<%=campsite._id %>">
+      <div class="thumbnail">
+        <img src="<%= campsite.image %>">
+        <div class="caption">
+        <%= campsite.name %>
+        </div>
+      </div>
+      </a>
+    </div>
+    <% }) %>
+  </div>
+
+<%- include("../partials/bot") %>
