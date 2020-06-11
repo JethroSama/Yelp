@@ -2,8 +2,9 @@
   <h1 class="newH1">Comment <%=campsite.name%></h1>
   <div class="formcont">
     <form action="/campsites/<%= campsite._id %>/comments" method="post" class="form-group">
+      <label for="comment">Comment</label>
     <div class="form-group">
-    <textarea name="comment[text]" class="form-control"></textarea>
+    <textarea id="comment" name="comment[text]" class="form-control" rows="5"></textarea>
     </div>
     <button class="btn btn-primary btn-block">Submit</button>
     </form>

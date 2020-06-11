@@ -2,8 +2,9 @@
   <h1 class="newH1">Edit Comment</h1>
   <div class="formcont">
     <form action="/campsites/<%= campsiteId %>/comments/<%= comment._id %>?_method=PUT" method="post" class="form-group">
+      <label for="comment">Comment</label>
     <div class="form-group">
-    <textarea name="comment[text]" class="form-control"><%= comment.text %></textarea>
+    <textarea id="comment" name="comment[text]" class="form-control" rows="5"><%= comment.text %></textarea>
     </div>
     
     <button class="btn btn-primary btn-block">Submit</button>
