@@ -1,7 +1,7 @@
 <%- include("./partials/top") %>
 <h1 class="tac">Sign Up</h1>
 <div class="formcont">
-  <form action="/register" method="Post">
+  <form action="/register" method="Post" enctype="multipart/form-data">
     <label for="username">Username</label>
     <div class="form-group">
       <input id="username" class="form-control" type="text" name="username" placeholder="username">
@@ -12,7 +12,7 @@
     </div>
     <label for="avatar">Profile picture</label>
     <div class="form-group">
-      <input id="avatar" class="form-control" type="text" name="avatar" placeholder="avatar image url">
+      <input type="file" id="avatar" name="avatar" accept="image/*" required>
     </div>
     <label for="adminCode">Admin Code</label>
     <div class="form-group">
