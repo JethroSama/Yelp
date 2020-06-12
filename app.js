@@ -52,7 +52,7 @@ app.use(passport.session());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 //data of current user pass in all routes
-app.use((req, res, next)=>{
+app.use((req , res, next)=>{
   res.locals.currentUser = req.user;
   res.locals.error = req.flash("error");
   res.locals.success = req.flash("success");
