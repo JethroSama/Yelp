@@ -63,6 +63,6 @@ app.use("/campsites/:id/comments", commentRoutes);
 app.use("/campsites", campsiteRoutes);
 app.use("/", indexRoutes);
 //--server--
-app.listen(3000, ()=>{
-  console.log("server started at http://localhost:3000");
+app.listen(process.env.PORT || 80, ()=>{
+  console.log("server started");
 });
