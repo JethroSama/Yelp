@@ -1,0 +1,6 @@
+<%- include("./partials/top") %>
+<div class="center">
+  <div> <a class="btn btn-lg btn-block btn-warning" href="/users/<%= user._id %>/settings/password">Change Password</a></div>
+  <div> <a class="btn btn-lg btn-block btn-danger"  href="/user/<%= user._id %>/settings/delete">Delete account</a></div>
+</div>
+<%- include("./partials/bot") %>

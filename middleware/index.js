@@ -1,4 +1,5 @@
 const Comment = require("../models/comment"),
+User = require("../models/user"),
 Campsite = require("../models/campsite");
 
 //middleware
@@ -11,6 +12,26 @@ middleware.isLoggedIn = (req, res, next)=>{
   res.redirect("/login");
 };
 
+middleware.checkUser = (req, res, next)=>{
+  if (req.isAuthenticated()) {
+    User.findById(req.params.id, (err, user)=>{
+      if (err) {
+        res.redirect("back");
+      } else{
+        //check if user owns comment
+        if (user._id.equals(req.user.id) || req.user && req.user.isAdmin) {
+          next();
+        } else{
+          req.flash("error", "You don't have permission to do that");
+    res.redirect("/users/"+ req.params.id);
+        }
+      }
+    });
+  } else{
+    req.flash("error", "You must be logged in to do that");
+    res.redirect("/campsites");
+  }
+};
 middleware.checkCommentOwnership = (req, res, next)=>{
   if (req.isAuthenticated()) {
     Comment.findById(req.params.comment_id, (err, comment)=>{

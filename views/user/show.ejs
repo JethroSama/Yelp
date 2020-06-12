@@ -1,5 +1,8 @@
 <%- include("../partials/top") %>
 <div class="jumbotron">
+  <% if(currentUser && user._id.equals(currentUser.id)){ %>
+  <a href="/users/<%= user._id %>/settings"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a>
+  <% } %>
   <div class="tac">
     <img class="img-thumbnail img-circle" src="<%= user.avatar %>">
     <h4><%= user.username %></h4>

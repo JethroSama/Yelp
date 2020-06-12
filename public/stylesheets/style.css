@@ -33,3 +33,12 @@ div{
   width: 30px;
   padding: 0;
 }
+.glyphicon-cog{
+  font-size: 20px;
+}
+.center{
+  
+}
+.center div{
+  margin: 10% 0;
+}
