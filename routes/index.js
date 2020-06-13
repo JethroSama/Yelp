@@ -278,7 +278,7 @@ router.get("/users/:id/settings/password",middleware.checkUser, function(req, re
     res.redirect('/users/'+req.params.id+'/settings');
   });
 });
-router.get("/user/:id/settings/delete", (req, res)=>{
+router.get("/user/:id/settings/delete",middleware.checkUser, (req, res)=>{
   User.findByIdAndRemove(req.params.id, (err, user)=>{
     if (err) {
       req.flash("error", "something went wrong")
